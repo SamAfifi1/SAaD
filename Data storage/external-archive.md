@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The SAaD platform must retain historical data for compliance and audit purposes without overloading the primary databases.  
+The CMS system must retain historical data for compliance and audit purposes without overloading the primary databases.  
 An efficient archival solution is required to store cold or inactive data cost-effectively.
 
 ## Decision Drivers
