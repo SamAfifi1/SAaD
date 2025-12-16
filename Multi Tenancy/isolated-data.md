@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The SAaD platform must support multiple tenants, including clients in heavily regulated industries such as banking and telecommunications.  
+The developed system must support multiple tenants, including clients in heavily regulated industries such as banking and telecommunications.  
 A key architectural question is how to separate tenant data to ensure compliance, security, and scalability.  
 We must choose between different levels of data isolation — from shared tables with tenant identifiers to fully isolated databases — balancing regulatory needs, operational complexity, and cost.
 
