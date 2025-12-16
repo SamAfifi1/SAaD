@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The SAaD platform must support multiple tenants efficiently while maintaining data isolation.  
+The CMS system must support multiple tenants efficiently while maintaining data isolation.  
 A key decision is how to allocate compute resources across tenants — whether to dedicate compute per tenant or to use a shared compute layer that dynamically balances workloads.  
 The goal is to reduce cost and improve scalability without sacrificing fairness or tenant performance.
 
