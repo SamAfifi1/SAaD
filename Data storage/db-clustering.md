@@ -1,44 +1,64 @@
-# Relational Databases (SQL) for Tenant Data
+# Database Clustering Strategy for Tenant Databases
 
 ## Context and Problem Statement
 
-The SAaD platform manages critical client data that must maintain integrity, consistency, and strong transactional guarantees.  
-We must choose an appropriate data storage model for tenant data, balancing scalability, compliance, and reliability.
+The system must provide high availability and consistent performance for tenant data while supporting both transactional complaint workflows and read-heavy operations such as dashboards and reporting.  
+
+
+The architectural decision concerns how tenant databases should be deployed to meet availability, performance, and recovery objectives.  
+Options range from single-instance deployments to clustered configurations with replication and failover, each with different trade-offs in complexity, cost, and operational resilience.
 
 ## Decision Drivers
 
-* Need for ACID transactions and referential integrity.  
-* Structured and well-defined data models for analytics and reporting.  
-* Compliance requirements (financial, telecom, etc.).  
-* Developer familiarity and ecosystem maturity.
+- High availability and fault tolerance for tenant data  
+- Read scalability to support reporting and dashboard workloads  
+- Recovery objectives, including backup, restore, and failover capabilities  
+- Consistency guarantees for transactional complaint operations  
+- Operational complexity and infrastructure cost  
 
 ## Considered Options
 
-* Relational SQL databases (e.g., PostgreSQL, MySQL)  
-* NoSQL databases (e.g., MongoDB, DynamoDB)  
+- Single database instance per tenant (no replication)  
+- Active–passive clustering with read replicas  
+- Multi-primary (active–active) database clustering  
 
 ## Decision Outcome
 
-Chosen option: **Relational SQL databases**, because they provide strong data integrity guarantees, are well-suited to transactional workloads, and support compliance and auditability requirements.
+**Chosen option:** Active–passive clustering with read replicas  
+
+Each tenant database is deployed with a primary node responsible for write operations and one or more read replicas. This approach balances availability, consistency, and scalability by enabling automated failover while supporting read-heavy workloads without compromising transactional integrity.
 
 ### Consequences
 
-* Good, because SQL ensures consistent and reliable data updates across tenants.  
-* Good, because relational design supports complex queries and joins required for reporting.  
-* Bad, because horizontal scaling is more complex than in NoSQL systems.  
-* Bad, because strict schemas may slow schema evolution.
+- Good, because automated failover reduces downtime in the event of primary node failure  
+- Good, because read replicas can scale independently to support reporting and dashboard queries  
+- Good, because transactional consistency is preserved by routing all writes through a single primary  
+- Good, because replication and regular backups support defined recovery objectives  
+- Bad, because infrastructure costs increase due to additional replicas  
+- Bad, because write throughput is still constrained by the primary node  
 
 ## Pros and Cons of the Options
 
-### Relational SQL databases
+### Single database instance per tenant
 
-* Good, because of ACID guarantees and mature tooling.  
-* Good, because it supports strong referential integrity.  
-* Neutral, because read scaling can be mitigated with replicas or sharding.  
-* Bad, because schema migrations must be planned carefully.  
+- Good, because it is simple to deploy and manage  
+- Good, because it minimizes infrastructure cost  
+- Bad, because it represents a single point of failure  
+- Bad, because read-heavy workloads compete with transactional operations  
+- Bad, because recovery relies entirely on backups, increasing downtime  
 
-### NoSQL databases
+### Active–passive clustering with read replicas
 
-* Good, because they scale horizontally more easily.  
-* Bad, because they provide weaker consistency and transactional semantics.  
-* Bad, because compliance, joins, and relational queries are more difficult.  
+- Good, because it improves availability through failover mechanisms  
+- Good, because read replicas offload reporting and dashboard workloads  
+- Good, because consistency is easier to reason about than in multi-primary setups  
+- Neutral, because operational complexity increases but remains manageable with automation  
+- Bad, because additional infrastructure is required for replicas  
+
+### Multi-primary (active–active) clustering
+
+- Good, because it allows write scaling across nodes  
+- Good, because failover can be near-instantaneous  
+- Bad, because conflict resolution and data consistency become complex  
+- Bad, because implementation and operational overhead are significantly higher  
+- Bad, because it is unnecessary for the platform’s write patterns  

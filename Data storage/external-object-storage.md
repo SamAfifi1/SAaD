@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The SAaD platform generates large performance and analytics reports for tenants.  
+The system generates large performance and analytics reports for tenants.  
 These reports are static once generated but may be frequently accessed or downloaded.  
 We must choose how and where to store these report artifacts efficiently.
 
@@ -17,25 +17,23 @@ We must choose how and where to store these report artifacts efficiently.
 
 * Store reports in tenant databases  
 * Store reports on internal file storage  
-* Use external S3-compatible object storage  
+* Use external blob object storage  
 
 ## Decision Outcome
 
-Chosen option: **External S3-compatible object storage**, because it provides durable, scalable, and low-cost storage for large report files, with native CDN integration.
+Chosen option: **External blob object storage**, because it provides durable, scalable, and low-cost storage for large report files, with native CDN integration.
 
 ### Consequences
 
-* Good, because object storage reduces database bloat and improves performance.  
-* Good, because S3-style storage supports CDN delivery for quick downloads.  
+* Good, because object storage reduces database bloat and improves performance.   
 * Good, because versioning and lifecycle rules can automate cleanup.  
 * Bad, because external dependencies introduce latency and require network reliability.  
 
 ## Pros and Cons of the Options
 
-### External S3-compatible object storage
+### External blob object storage
 
 * Good, because it’s highly scalable and cost-efficient.  
-* Good, because it integrates easily with existing report generation services.  
 * Neutral, because network latency is acceptable for non-real-time access.  
 * Bad, because external availability and permissions must be tightly controlled.  
 
