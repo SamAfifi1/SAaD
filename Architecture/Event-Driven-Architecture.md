@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The System platform includes several supporting concerns such as auditing, notifications, reporting, and archival. These concerns are triggered by changes in the complaint lifecycle but do not need to be executed synchronously as part of user-facing request flows.
+The CMS system includes several supporting concerns such as auditing, notifications, reporting, and archival. These concerns are triggered by changes in the complaint lifecycle but do not need to be executed synchronously as part of user-facing request flows.
 
 Implementing these concerns synchronously within the core backend would increase coupling, reduce responsiveness, and risk failures in non-critical services impacting core complaint processing.  
 The architectural decision concerns whether these tasks should be handled synchronously within the backend or delegated to asynchronous processing via an event-driven mechanism.
