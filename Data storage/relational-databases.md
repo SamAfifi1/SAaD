@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The SAaD platform manages critical client data that must maintain integrity, consistency, and strong transactional guarantees.  
+The system manages critical client data that must maintain integrity, consistency, and strong transactional guarantees.  
 We must choose an appropriate data storage model for tenant data, balancing scalability, compliance, and reliability.
 
 ## Decision Drivers
