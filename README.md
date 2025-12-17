@@ -1,2 +1,2 @@
-# SAaD
+# Architecture Decision Records
 for year 3 software architecture and design module
